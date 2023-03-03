@@ -1,0 +1,14 @@
+<% if user_signed_in? %>
+  <p><strong>Name:</strong>
+    <%= current_user.email.split("@")[0].capitalize %></p>
+  <p><strong>Email:</strong>
+    <%= current_user.email %></p>
+  <p> <%= link_to "signout",destroy_user_session_path %> |
+    <%=link_to "Dashboard",movies_path  %>
+  </p>
+<% else %>
+  <p><%= link_to"Signin",new_user_session_path%> |
+    <%= link_to"Signout",new_user_registration_path %>
+  </p>
+
+<% end %>

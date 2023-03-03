@@ -1,0 +1,48 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @movie.name %>
+</p>
+
+<p>
+  <strong>Releasedate:</strong>
+  <%= @movie.releasedate %>
+</p>
+<p>
+  <strong>Average Rating:</strong>
+  <%= (@movie.ratings.average(:rate)||0.0).round(1) %>
+</p>
+
+<%= link_to 'Edit', edit_movie_path(@movie) %> |
+<%= link_to 'Back', movies_path %>
+<br><hr>
+<strong>Give Rating :</strong>
+<%= render partial: "ratings/form",locals: { rating: @rating} %>
+<hr>
+<strong>Give Reviews :</strong>
+<%= render partial:"reviews/form",locals: {review: @review} %>
+<br>
+<% if @movie.reviews.count > 0 %>
+<strong>Existing Reviews :</strong>
+<table class="table table-success table-striped-columns">
+  <thead>
+  <tr>
+    <th>Reviews</th>
+    <th>email</th>
+    <th colspan="2">Action</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @reviews.each do |review| %>
+    <tr>
+      <td><%= review.comment %></td>
+      <td><%= review.user.email %></td>
+      <td><%= link_to 'Edit', edit_movie_review_path(@movie,review) %></td>
+      <td><%= link_to 'Destroy', [@movie,review], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<% end %>

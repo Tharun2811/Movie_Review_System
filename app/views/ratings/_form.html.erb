@@ -1,0 +1,29 @@
+<%= form_with(model: [@movie,rating]) do |form| %>
+  <div class="field">
+    <%= form.radio_button :rate,value=1 %>
+    <%= form.label :⭐ %>
+  </div>
+  <div class="field">
+    <%= form.radio_button :rate,value=2 %>
+    <%= form.label :⭐⭐ %>
+  </div>
+
+  <div class="field">
+    <%= form.radio_button :rate,value=3 %>
+    <%= form.label :⭐⭐⭐ %>
+  </div>
+
+  <div class="field">
+    <%= form.radio_button :rate,value=4 %>
+    <%= form.label :⭐⭐⭐⭐ %>
+  </div>
+
+  <div class="field">
+    <%= form.radio_button :rate,value=5 %>
+    <%= form.label :⭐⭐⭐⭐⭐ %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "submit rating" %>
+  </div>
+<% end %>

@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Movies</h1>
+
+<table class="table table-success table-striped-columns">
+  <thead  class="table table-dark">
+    <tr>
+      <th>Name</th>
+      <th>Releasedate</th>
+      <th>AverageRatings</th>
+      <th>Reviews</th>
+      <th colspan="3">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody >
+    <% @movies.each do |movie| %>
+      <tr>
+        <td><%= movie.name %></td>
+        <td><%= movie.releasedate %></td>
+        <td><%= (movie.ratings.average(:rate)||0.0).round(1) %></td>
+        <td><% if movie.reviews.count > 0 %>
+          <% movie.reviews.each do |review|  %>
+            <p><%= review.comment %> - <%= review.user.email %></p>
+            <% end %>
+            <% else %>
+          <p>No Reviews</p>
+            <% end %>
+            </td>
+        <td><%= link_to 'Show', movie %></td>
+        <td><%= link_to 'Edit', edit_movie_path(movie) %></td>
+        <td><%= link_to 'Destroy', movie, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Movie', new_movie_path %>
