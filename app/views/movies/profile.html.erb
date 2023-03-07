@@ -4,11 +4,13 @@
   <p><strong>Email:</strong>
     <%= current_user.email %></p>
   <p> <%= link_to "signout",destroy_user_session_path %> |
-    <%=link_to "Dashboard",movies_path  %>
+    <%=link_to "Dashboard",movies_path  %> |
+    <%= link_to "Edit profile", edit_user_registration_path %>
   </p>
 <% else %>
-  <p><%= link_to"Signin",new_user_session_path%> |
-    <%= link_to"Signout",new_user_registration_path %>
+  <p style="margin-top: 60px">
+    <h3>Profile</h3><br><%= link_to"Signin",new_user_session_path%> |
+    <%= link_to"Signup",new_user_registration_path %>
   </p>
 
 <% end %>

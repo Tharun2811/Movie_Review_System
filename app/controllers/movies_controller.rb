@@ -8,13 +8,22 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    if params[:title]
+      @movies = Movie.where("name LIKE ?", "#{params[:title]}%").order(average_ratings: :desc).includes( :reviews)
+    elsif params[:start_date] && params[:end_date]
+      start_date = Date.parse(params[:start_date])
+      end_date = Date.parse(params[:end_date])
+      @movies = Movie.where(releasedate: start_date..end_date).order(average_ratings: :desc).includes( :reviews)
+    else
+      @movies = Movie.all.order(average_ratings: :desc).includes( :reviews)
+    end
+
   end
 
   # GET /movies/1 or /movies/1.json
   def show
     @rating=@movie.ratings.new
-    @reviews=@movie.reviews.all
+    @reviews=@movie.reviews.all.includes(:user)
     @review=@movie.reviews.new
   end
 
@@ -33,7 +42,7 @@ class MoviesController < ApplicationController
 
     respond_to do |format|
       if @movie.save
-        format.html { redirect_to movie_url(@movie), notice: "Movie was successfully created." }
+        format.html { redirect_to movies_path, notice: "Movie was successfully created." }
         format.json { render :show, status: :created, location: @movie }
       else
         format.html { render :new, status: :unprocessable_entity }

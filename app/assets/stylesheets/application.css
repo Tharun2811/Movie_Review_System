@@ -14,3 +14,5 @@
  *= require_self
  */
 *{margin: 6px}
+.filter:hover{background-color: #FFDF46}
+.main_nav{background-color: #ffdf46}

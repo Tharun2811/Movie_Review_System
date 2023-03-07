@@ -1,5 +1,4 @@
 <p id="notice"><%= notice %></p>
-
 <p>
   <strong>Name:</strong>
   <%= @movie.name %>
@@ -11,7 +10,7 @@
 </p>
 <p>
   <strong>Average Rating:</strong>
-  <%= (@movie.ratings.average(:rate)||0.0).round(1) %>
+  <%= @movie.average_ratings.round(1) %>
 </p>
 
 <%= link_to 'Edit', edit_movie_path(@movie) %> |
@@ -23,26 +22,21 @@
 <strong>Give Reviews :</strong>
 <%= render partial:"reviews/form",locals: {review: @review} %>
 <br>
-<% if @movie.reviews.count > 0 %>
+<% if @movie.review_count> 0 %>
 <strong>Existing Reviews :</strong>
-<table class="table table-success table-striped-columns">
-  <thead>
-  <tr>
-    <th>Reviews</th>
-    <th>email</th>
-    <th colspan="2">Action</th>
-  </tr>
-  </thead>
-
-  <tbody>
   <% @reviews.each do |review| %>
-    <tr>
-      <td><%= review.comment %></td>
-      <td><%= review.user.email %></td>
-      <td><%= link_to 'Edit', edit_movie_review_path(@movie,review) %></td>
-      <td><%= link_to 'Destroy', [@movie,review], method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+  <div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title"><%= review.user.email.split("@")[0].capitalize%></h5>
+      <p>(<%= review.user.email %>)</p>
+      <strong class="card-text"><%= review.comment %></strong>
+        <% if can? :update,review %>
+          <%= link_to 'Edit', edit_movie_review_path(@movie,review) ,class: "btn btn-primary"%>
+        <% end %>
+        <% if can? :delete,review %>
+          <%= link_to 'Destroy', [@movie,review] ,class: "btn btn-primary", method: :delete, data: { confirm: 'Are you sure?' } %>
+        <% end %>
+    </div>
+  </div>
+    <% end %>
 <% end %>

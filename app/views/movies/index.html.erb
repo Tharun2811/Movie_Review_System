@@ -1,4 +1,35 @@
 <p id="notice"><%= notice %></p>
+<table>
+  <tbody>
+  <tr>
+    <th>
+      <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="filter navbar-brand">Filter by name:</a>
+          <%= form_with( url: movies_path, method: :get) do |form|%>
+            <%= form.text_field :title%>
+            <%= form.submit "Search",class: "btn btn-outline-success" %>
+          <% end %>
+        </div>
+      </nav>
+    </th>
+    <th>
+      <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="filter navbar-brand">Filter by release_date:</a>
+          <%= form_with( url: movies_path, method: :get) do|form| %>
+            <%= form.label :"Start Date" %>
+            <%= form.date_field :start_date%>
+            <%= form.label :"End Date" %>
+            <%= form.date_field :end_date%>
+            <%= form.submit "Filter",class: "btn btn-outline-success"  %>
+          <% end %>
+        </div>
+      </nav>
+    </th>
+  </tr>
+  </tbody>
+</table>
 
 <h1>Movies</h1>
 
@@ -9,7 +40,9 @@
       <th>Releasedate</th>
       <th>AverageRatings</th>
       <th>Reviews</th>
-      <th colspan="3">Actions</th>
+      <th>Create Reviews</th>
+      <th>Create Ratings</th>
+      <th colspan="2">Actions</th>
     </tr>
   </thead>
 
@@ -18,16 +51,17 @@
       <tr>
         <td><%= movie.name %></td>
         <td><%= movie.releasedate %></td>
-        <td><%= (movie.ratings.average(:rate)||0.0).round(1) %></td>
-        <td><% if movie.reviews.count > 0 %>
+        <td><%= movie.average_ratings.round(1) %></td>
+        <td><% if movie.review_count > 0 %>
           <% movie.reviews.each do |review|  %>
-            <p><%= review.comment %> - <%= review.user.email %></p>
+              <p><%= review.comment %> </p>
             <% end %>
             <% else %>
           <p>No Reviews</p>
             <% end %>
             </td>
-        <td><%= link_to 'Show', movie %></td>
+        <td><%= link_to 'clickhere',movie %></td>
+        <td><%= link_to 'clickhere',movie %></td>
         <td><%= link_to 'Edit', edit_movie_path(movie) %></td>
         <td><%= link_to 'Destroy', movie, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
